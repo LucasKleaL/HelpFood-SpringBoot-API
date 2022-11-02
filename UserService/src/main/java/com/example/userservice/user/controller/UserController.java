@@ -2,6 +2,7 @@ package com.example.userservice.user.controller;
 
 import com.example.userservice.user.entity.User;
 import com.example.userservice.user.service.UserService;
+import com.example.userservice.util.exception.MessageException;
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,7 @@ public class UserController {
     UserService userService;
 
     @PostMapping
-    public ResponseEntity<?> save(@RequestBody User user) {
+    public ResponseEntity<?> save(@RequestBody User user) throws MessageException {
         user = userService.save(user);
         return new ResponseEntity<>(user, HttpStatus.CREATED);
     }

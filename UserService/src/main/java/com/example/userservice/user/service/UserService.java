@@ -2,6 +2,7 @@ package com.example.userservice.user.service;
 
 import com.example.userservice.user.entity.User;
 import com.example.userservice.user.repository.UserRepository;
+import com.example.userservice.util.exception.MessageException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,9 +14,9 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public User save(User user) { //exeçao
+    public User save(User user) throws MessageException {
         if (user.getName() == null || user.getName().equals("") || user.getName().length() > 55) {
-            //throw exception
+            throw new MessageException("ERR001", "Invalid user data.");
         }
         return userRepository.save(user);
     }
