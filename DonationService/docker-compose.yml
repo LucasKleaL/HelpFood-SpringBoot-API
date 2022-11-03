@@ -3,20 +3,41 @@ services:
   donation-server:
     container_name: donation-service
     build:
+      context: ../DonationService
       dockerfile: Dockerfile
     image: donation-server:latest
     ports:
-      - 18888:8888
+      - 18889:8880
     networks:
       - spring-cloud-network
   product-server:
     container_name: product-server
     build:
-      context: docker-product-server
+      context: ../productservice
       dockerfile: Dockerfile
     image: product-server:latest
     ports:
       - 19999:9999
+    networks:
+      - spring-cloud-network
+  user-server:
+    container_name: user-server
+    build:
+      context: ../UserService
+      dockerfile: Dockerfile
+    image: user-server:latest
+    ports:
+      - 19998:9998
+    networks:
+      - spring-cloud-network
+  register-server:
+    container_name: register-server
+    build:
+      context: ../RegisterService
+      dockerfile: Dockerfile
+    image: register-server:latest
+    ports:
+      - 19997:9997
     networks:
       - spring-cloud-network
 networks:
