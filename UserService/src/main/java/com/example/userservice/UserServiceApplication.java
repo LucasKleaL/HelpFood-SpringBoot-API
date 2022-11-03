@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.servers.Server;
 import org.springframework.amqp.rabbit.annotation.EnableRabbit;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 
 @OpenAPIDefinition(
         info = @Info(title = "API de usuários para doações", version = "3.0.1", description = "Helpfood"),
@@ -14,6 +15,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
                 @Server(url = "http://localhost:8080/user"),
         }
 )
+@EnableFeignClients
 @EnableRabbit
 @SpringBootApplication
 public class UserServiceApplication {
