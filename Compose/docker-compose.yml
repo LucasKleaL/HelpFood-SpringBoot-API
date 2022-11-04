@@ -4,7 +4,7 @@ services:
     container_name: donation-service
     build:
       context: ../DonationService
-      dockerfile: Dockerfile
+      dockerfile: ../DonationService/Dockerfile
     image: donation-server:latest
     ports:
       - 18889:8880
@@ -14,7 +14,7 @@ services:
     container_name: product-server
     build:
       context: ../productservice
-      dockerfile: Dockerfile
+      dockerfile: ../productservice/Dockerfile
     image: product-server:latest
     ports:
       - 19999:9999
@@ -24,7 +24,7 @@ services:
     container_name: user-server
     build:
       context: ../UserService
-      dockerfile: Dockerfile
+      dockerfile: ../UserService/Dockerfile
     image: user-server:latest
     ports:
       - 19998:9998
@@ -34,7 +34,7 @@ services:
     container_name: register-server
     build:
       context: ../RegisterService
-      dockerfile: Dockerfile
+      dockerfile: ../RegisterService/Dockerfile
     image: register-server:latest
     ports:
       - 19997:9997
