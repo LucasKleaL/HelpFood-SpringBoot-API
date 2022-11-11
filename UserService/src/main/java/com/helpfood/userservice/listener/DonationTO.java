@@ -1,4 +1,4 @@
-package com.helpfood.userservice.user.listener;
+package com.helpfood.userservice.listener;
 
 import java.io.Serializable;
 

@@ -24,8 +24,13 @@ public class DonationService {
     public void deletar(int id) {
         donationRepository.deleteById(id);
     }
+
     public List<Donation> listar() {
         return donationRepository.findAll();
+    }
+
+    public List<Donation> listByUserId(Integer donorId) {
+        return donationRepository.findAllByDonorId(donorId);
     }
 
 }

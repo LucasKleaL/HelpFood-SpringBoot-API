@@ -18,6 +18,7 @@ public class Donation {
     private String District;
     private String EmailDonor;
     private String NameDonor;
+    private Integer donorId;
     private String Number;
     private String Phone;
     private String Quantity;
@@ -70,6 +71,14 @@ public class Donation {
 
     public void setEmailDonor(String emailDonor) {
         EmailDonor = emailDonor;
+    }
+
+    public Integer getDonorId() {
+        return donorId;
+    }
+
+    public void setDonorId(Integer donorId) {
+        donorId = donorId;
     }
 
     public String getNameDonor() {

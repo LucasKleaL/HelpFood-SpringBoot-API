@@ -9,8 +9,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @OpenAPIDefinition(
 		info = @Info(title = "API de produtos para doações", version = "3.0.1", description = "app helpfoo"),
 		servers = {
-				@Server(url = "http://localhost:8080"),
-				@Server(url = "http://localhost:8080/helpfood-product"),
+				@Server(url = "http://localhost:8081"),
+				@Server(url = "http://localhost:8081/helpfood-product"),
 		}
 )
 @SpringBootApplication

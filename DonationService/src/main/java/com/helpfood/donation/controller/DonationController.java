@@ -47,5 +47,10 @@ public class DonationController {
     public List<Donation> getAll() {
         return donationService.listar();
     }
+
+    @GetMapping("/user/{id}")
+    public List<Donation> listByUserId(@PathVariable("id") Integer userId) {
+        return donationService.listByUserId(userId);
+    }
 }
 
