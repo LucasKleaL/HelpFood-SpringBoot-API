@@ -1,5 +1,8 @@
 package com.helpfood.userservice.user.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.helpfood.userservice.listener.DonationTO;
+import com.helpfood.userservice.producer.QueueSender;
 import com.helpfood.userservice.user.entity.User;
 import com.helpfood.userservice.user.repository.UserRepository;
 import com.helpfood.userservice.util.exception.MessageException;
@@ -13,6 +16,9 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private QueueSender queueSender;
 
     public User save(User user) throws MessageException {
         if (user.getName() == null || user.getName().equals("") || user.getName().length() > 55) {
@@ -44,6 +50,10 @@ public class UserService {
 
     public User findById(Integer id) {
         return userRepository.findById(id).get();
+    }
+
+    public /*List<DonationTO>*/ void getAllUserDonations(Integer id, String userType) throws JsonProcessingException {
+        queueSender.sendRequestDonationByUserId(id, userType);
     }
 
     public void delete(Integer id) {
