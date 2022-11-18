@@ -1,8 +1,8 @@
 package com.helpfood.util.excecao;
 
-public class ExcecaoExemplo extends Exception {
+public class MessageException extends Exception {
 
-    public ExcecaoExemplo(String codigo, String mensagem) {
+    public MessageException(String codigo, String mensagem) {
         super(mensagem);
         this.codigo = codigo;
         this.mensagem = mensagem;
