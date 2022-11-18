@@ -7,7 +7,7 @@ services:
       dockerfile: ../DonationService/Dockerfile
     image: donation-server:latest
     ports:
-      - 18889:8880
+      - 8082:8082
     networks:
       - spring-cloud-network
   product-server:
@@ -17,7 +17,7 @@ services:
       dockerfile: ../productservice/Dockerfile
     image: product-server:latest
     ports:
-      - 19999:9999
+      - 8081:8081
     networks:
       - spring-cloud-network
   user-server:
@@ -27,7 +27,7 @@ services:
       dockerfile: ../UserService/Dockerfile
     image: user-server:latest
     ports:
-      - 19998:9998
+      - 8080:8080
     networks:
       - spring-cloud-network
   register-server:
@@ -37,7 +37,7 @@ services:
       dockerfile: ../RegisterService/Dockerfile
     image: register-server:latest
     ports:
-      - 19997:9997
+      - 8083:8083
     networks:
       - spring-cloud-network
 networks:
