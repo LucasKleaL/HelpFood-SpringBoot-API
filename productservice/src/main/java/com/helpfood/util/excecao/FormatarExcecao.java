@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class FormatarExcecao {
 
-    @ExceptionHandler({ExcecaoExemplo.class})
-    public ResponseEntity<Object> sqlError(ExcecaoExemplo ex) {
+    @ExceptionHandler({MessageException.class})
+    public ResponseEntity<Object> sqlError(MessageException ex) {
         String retorno = "{" +
                 "\"codigo\":\""+ex.getCodigo()+"\"," +
                 "\"mensagem\":\""+ex.getMensagem()+"\"" +

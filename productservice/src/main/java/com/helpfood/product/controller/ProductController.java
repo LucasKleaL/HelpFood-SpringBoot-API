@@ -1,6 +1,7 @@
 package com.helpfood.product.controller;
 import com.helpfood.product.entity.Product;
 import com.helpfood.product.service.ProductService;
+import com.helpfood.util.excecao.MessageException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
@@ -19,7 +20,7 @@ public class ProductController {
     @Autowired
     ProductService productService;
     @PostMapping
-    public void salvar(@RequestBody Product product) {
+    public void salvar(@RequestBody Product product) throws MessageException {
         productService.salvar(product);
     }
     @DeleteMapping
