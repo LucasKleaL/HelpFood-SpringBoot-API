@@ -1,11 +1,9 @@
 package com.helpfood.userservice.user.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import com.helpfood.userservice.donation.DonationTO;
+
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "USERS")
@@ -33,8 +31,11 @@ public class User {
     @Column(name = "CNPJ", nullable = false)
     private String cnpj;
 
-    @Column(name = "TIPO", nullable = false)
-    private String tipo;
+    @Column(name = "ROLE", nullable = false)
+    private String role;
+
+    @Transient
+    private List<DonationTO> donations;
 
     public Integer getId() {
         return id;
@@ -92,15 +93,20 @@ public class User {
         this.cnpj = cnpj;
     }
 
-    public String getTipo() {
-        return tipo;
+    public String getRole() {
+        return role;
     }
 
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
+    public void setRole(String role) {
+        this.role = role;
     }
-/*
-    @Column(name = "DOACOES", nullable = true)
-    private ArrayList<String> doacoes;
-     */
+
+    public List<DonationTO> getDonations() {
+        return donations;
+    }
+
+    public void setDonations(List<DonationTO> donations) {
+        this.donations = donations;
+    }
+
 }

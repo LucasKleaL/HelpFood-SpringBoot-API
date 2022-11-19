@@ -50,8 +50,13 @@ public class DonationController {
     }
 
     @GetMapping("/donor/{id}")
-    public List<Donation> listByDonorId(@PathVariable("id") Integer userId) throws JsonProcessingException {
+    public List<Donation> listByDonorId(@PathVariable("id") Integer userId) {
         return donationService.listByDonorId(userId);
+    }
+
+    @GetMapping("/receiver/{id}")
+    public List<Donation> listByReceiverId(@PathVariable("id") Integer userId) {
+        return donationService.listByReceiverId(userId);
     }
 }
 

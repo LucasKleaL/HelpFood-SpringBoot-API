@@ -38,27 +38,11 @@ public class DonationService {
         return donationRepository.findAll();
     }
 
-    public List<Donation> listByDonorId(Integer donorId) throws JsonProcessingException {
-        ObjectMapper mapper = new ObjectMapper();
-        List<Donation> donations = donationRepository.findAllByDonorId(donorId);
-        for (int i = 0; i < donations.size(); i++) {
-            Donation donation = donations.get(i);
-            if (i == (donations.size() - 1)) {
-                queueSender.sendDonationToUser(mapper.writeValueAsString(donation), true);
-            }
-            else {
-                queueSender.sendDonationToUser(mapper.writeValueAsString(donation), false);
-            }
-            System.out.println(donation);
-        }
-
-        return donations;
+    public List<Donation> listByDonorId(Integer donorId) {
+        return donationRepository.findAllByDonorId(donorId);
     }
 
-    public List<Donation> listByReceiverId(Integer receiverId) throws JsonProcessingException {
-        ObjectMapper mapper = new ObjectMapper();
-        //queueSender.sendDonationToUser(mapper.writeValueAsString(donationRepository.findAllByReceiverId(receiverId)));
-
+    public List<Donation> listByReceiverId(Integer receiverId) {
         return donationRepository.findAllByReceiverId(receiverId);
     }
 

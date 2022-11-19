@@ -1,7 +1,7 @@
 package com.helpfood.userservice.user.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.helpfood.userservice.listener.DonationTO;
+import com.helpfood.userservice.donation.DonationTO;
 import com.helpfood.userservice.user.entity.User;
 import com.helpfood.userservice.user.service.UserService;
 import com.helpfood.userservice.util.exception.MessageException;
@@ -49,10 +49,14 @@ public class UserController {
         }
     }
 
-    @GetMapping("listDonations/{id}/{userType}")
-    public /*List<DonationTO>*/ void getAllUserDonations(@PathVariable("id") Integer id,
-                                                         @PathVariable("userType") String userType) throws JsonProcessingException {
-        userService.getAllUserDonations(userService.findById(id));
+    @GetMapping("listDonations/{id}")
+    public ResponseEntity<List<DonationTO>> getAllUserDonations(@PathVariable("id") Integer id) {
+        try {
+            User user = userService.findById(id);
+            return new ResponseEntity<>(userService.getAllUserDonations(user), HttpStatus.OK) ;
+        } catch (NoSuchElementException ex) {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
     }
 
     @DeleteMapping("/{id}")

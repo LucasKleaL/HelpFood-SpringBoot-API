@@ -28,11 +28,13 @@ public class UserListener {
     }
     */
 
+    /*
     @RabbitListener(queues = "User")
     public void receive(Message message) {
         String msg = new String(message.getBody());
         System.out.println(msg);
     }
+    */
 
     @RabbitListener(queues = "Donation")
     public void receive(@Payload String json, @Header(name="last", required = false) Boolean last) throws JsonMappingException, JsonProcessingException {

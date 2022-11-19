@@ -2,7 +2,8 @@ package com.helpfood.userservice.user.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.helpfood.userservice.listener.DonationTO;
+import com.helpfood.userservice.donation.DonationTO;
+import com.helpfood.userservice.donation.FeignDonation;
 import com.helpfood.userservice.producer.QueueSender;
 import com.helpfood.userservice.user.entity.User;
 import com.helpfood.userservice.user.repository.UserRepository;
@@ -21,6 +22,9 @@ public class UserService {
     @Autowired
     private QueueSender queueSender;
 
+    @Autowired
+    private FeignDonation feignDonation;
+
     public User save(User user) throws MessageException {
         if (user.getName() == null || user.getName().equals("") || user.getName().length() > 55) {
             throw new MessageException("USER_ERR001", "Invalid user data (name).");
@@ -31,8 +35,8 @@ public class UserService {
         if (user.getCnpj() == null || user.getCnpj().equals("")) {
             throw new MessageException("USER_ERR003", "Invalid user data (cnpj)");
         }
-        if (user.getTipo() == null || user.getTipo().equals("")) {
-            throw new MessageException("USER_ERR004", "Invalid user data (tipo).");
+        if (user.getRole() == null || user.getRole().equals("")) {
+            throw new MessageException("USER_ERR004", "Invalid user data (role).");
         }
 
         return userRepository.save(user);
@@ -40,11 +44,16 @@ public class UserService {
 
     public List<User> getAll() {
         List<User> users = userRepository.findAll();
-        /* buscar doações relacionadas ao usuário
         for (User user : users) {
-
+            List<DonationTO> userDonations;
+            if (user.getRole().equals("empresa")) {
+                userDonations = feignDonation.findByDonorId(user.getId());
+            }
+            else {
+                userDonations = feignDonation.findByReceiverId(user.getId());
+            }
+            user.setDonations(userDonations);
         }
-        */
 
         return users;
     }
@@ -53,9 +62,8 @@ public class UserService {
         return userRepository.findById(id).get();
     }
 
-    public /*List<DonationTO>*/ void getAllUserDonations(User user) throws JsonProcessingException {
-        ObjectMapper mapper = new ObjectMapper();
-        queueSender.send(mapper.writeValueAsString(user));
+    public List<DonationTO> getAllUserDonations(User user){
+        return feignDonation.findByDonorId(user.getId());
     }
 
     public void delete(Integer id) {
