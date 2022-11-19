@@ -52,7 +52,7 @@ public class UserController {
     @GetMapping("listDonations/{id}/{userType}")
     public /*List<DonationTO>*/ void getAllUserDonations(@PathVariable("id") Integer id,
                                                          @PathVariable("userType") String userType) throws JsonProcessingException {
-        userService.getAllUserDonations(id, userType);
+        userService.getAllUserDonations(userService.findById(id));
     }
 
     @DeleteMapping("/{id}")

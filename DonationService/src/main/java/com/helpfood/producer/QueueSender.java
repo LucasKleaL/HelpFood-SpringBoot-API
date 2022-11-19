@@ -16,4 +16,13 @@ public class QueueSender {
     public void send(String json) {
         rabbitTemplate.convertAndSend(this.queue.getName(), json);
     }
+
+    public void sendDonationToUser(String json, Boolean last) {
+        // set the header of the "last" property of message
+        rabbitTemplate.setBeforePublishPostProcessors(message -> {
+            message.getMessageProperties().setHeader("last", last);
+            return message;
+        });
+        rabbitTemplate.convertAndSend("Donation", json);
+    }
 }

@@ -1,6 +1,7 @@
 package com.helpfood.userservice.user.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.helpfood.userservice.listener.DonationTO;
 import com.helpfood.userservice.producer.QueueSender;
 import com.helpfood.userservice.user.entity.User;
@@ -52,8 +53,9 @@ public class UserService {
         return userRepository.findById(id).get();
     }
 
-    public /*List<DonationTO>*/ void getAllUserDonations(Integer id, String userType) throws JsonProcessingException {
-        queueSender.sendRequestDonationByUserId(id, userType);
+    public /*List<DonationTO>*/ void getAllUserDonations(User user) throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        queueSender.send(mapper.writeValueAsString(user));
     }
 
     public void delete(Integer id) {

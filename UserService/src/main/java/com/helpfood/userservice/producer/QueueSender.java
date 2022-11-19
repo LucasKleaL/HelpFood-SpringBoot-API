@@ -18,12 +18,14 @@ public class QueueSender {
     private Queue queue;
 
     public void send(String json) {
-        rabbitTemplate.convertAndSend(this.queue.getName(), json);
+        rabbitTemplate.convertAndSend("User", json);
     }
 
+    /*
     public void sendRequestDonationByUserId(Integer id, String userType) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         String message = "userId: " + id + " userType: " + userType;
-        rabbitTemplate.convertAndSend("Donation", mapper.writeValueAsString(message));
+        rabbitTemplate.convertAndSend("User", mapper.writeValueAsString(message));
     }
+     */
 }
