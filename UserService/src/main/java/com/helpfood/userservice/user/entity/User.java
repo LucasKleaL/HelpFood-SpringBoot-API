@@ -3,6 +3,7 @@ package com.helpfood.userservice.user.entity;
 import com.helpfood.userservice.donation.DonationTO;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -33,6 +34,10 @@ public class User {
 
     @Column(name = "ROLE", nullable = false)
     private String role;
+
+    @ElementCollection
+    @Column(name = "DONATIONIDS", nullable = true)
+    private List<Integer> donationIds;
 
     @Transient
     private List<DonationTO> donations;
@@ -99,6 +104,22 @@ public class User {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public List<Integer> getDonationsId() {
+        return donationIds;
+    }
+
+    public void setDonationsId(List<Integer> donationsId) {
+        this.donationIds = donationsId;
+    }
+
+    public void addDonationId(Integer id) {
+        this.donationIds.add(id);
+    }
+
+    public void removeDonationId(Integer donationId) {
+        this.donationIds.remove(Integer.valueOf(donationId));
     }
 
     public List<DonationTO> getDonations() {

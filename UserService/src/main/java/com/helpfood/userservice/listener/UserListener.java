@@ -1,41 +1,35 @@
 package com.helpfood.userservice.listener;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.amqp.core.Message;
+import com.helpfood.userservice.donation.DonationTO;
+import com.helpfood.userservice.user.service.UserService;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.Header;
-import org.springframework.messaging.handler.annotation.Headers;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
-import java.util.Map;
 
 @Component
 public class UserListener {
 
-    private List<DonationTO> donationsTOS;
+    @Autowired
+    UserService userService;
 
-    /*
-    @RabbitListener(queues = {"${queue.name}"})
-    public void receive(@Payload String json) throws JsonMappingException, JsonProcessingException {
+    @RabbitListener(queues = "Donation")
+    public void receive(@Payload String json, @Header(name="operation", required = false) String operation) throws JsonMappingException, JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         DonationTO donation = mapper.readValue(json, DonationTO.class);
-        System.out.println(donation);
+        if (operation.equals("add")) {
+            userService.addDonationId(donation);
+        }
+        else if (operation.equals("remove")) {
+            userService.removeDonationId(donation);
+        }
     }
-    */
 
     /*
-    @RabbitListener(queues = "User")
-    public void receive(Message message) {
-        String msg = new String(message.getBody());
-        System.out.println(msg);
-    }
-    */
-
     @RabbitListener(queues = "Donation")
     public void receive(@Payload String json, @Header(name="last", required = false) Boolean last) throws JsonMappingException, JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
@@ -46,5 +40,6 @@ public class UserListener {
             this.donationsTOS.clear();
         }
     }
+     */
 
 }

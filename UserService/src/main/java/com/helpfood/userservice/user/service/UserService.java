@@ -70,4 +70,26 @@ public class UserService {
         userRepository.deleteById(id);
     }
 
+    public void addDonationId(DonationTO donation) {
+        User user;
+        if (donation.getReceiverId() == null) {
+            user = userRepository.findById(donation.getDonorId()).get();
+        }
+        else {
+            user = userRepository.findById(donation.getReceiverId()).get();
+        }
+        user.addDonationId(donation.getId());
+    }
+
+    public void removeDonationId(DonationTO donation) {
+        User user;
+        if (donation.getReceiverId() == null) {
+            user = userRepository.findById(donation.getDonorId()).get();
+        }
+        else {
+            user = userRepository.findById(donation.getReceiverId()).get();
+        }
+        user.removeDonationId(donation.getId());
+    }
+
 }
