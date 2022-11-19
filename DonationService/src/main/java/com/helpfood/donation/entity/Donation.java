@@ -6,24 +6,29 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "DOACAO")
+@Table(name = "DONATION")
 public class Donation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private String Active;
-    private String BusinessDonor;
-    private String Description;
-    private String District;
-    private String EmailDonor;
-    private String NameDonor;
+    private Boolean isActive;
+
+    private String title;
+
+    private String description;
+
     private Integer donorId;
-    private String Number;
-    private String Phone;
-    private String Quantity;
-    private String Receiver;
-    private String Street;
+
+    private String donorBusinessName;
+
+    private String donorAddress;
+
+    private Integer receiverId;
+
+    private String receiverName;
+
+    private String receiverAddress;
 
     public Integer getId() {
         return id;
@@ -33,44 +38,28 @@ public class Donation {
         this.id = id;
     }
 
-    public String getActive() {
-        return Active;
+    public Boolean getIsActive() {
+        return isActive;
     }
 
-    public void setActive(String active) {
-        Active = active;
+    public void setIsActive(Boolean isActive) {
+        this.isActive = isActive;
     }
 
-    public String getBusinessDonor() {
-        return BusinessDonor;
+    public String getTitle() {
+        return title;
     }
 
-    public void setBusinessDonor(String businessDonor) {
-        BusinessDonor = businessDonor;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getDescription() {
-        return Description;
+        return description;
     }
 
     public void setDescription(String description) {
-        Description = description;
-    }
-
-    public String getDistrict() {
-        return District;
-    }
-
-    public void setDistrict(String district) {
-        District = district;
-    }
-
-    public String getEmailDonor() {
-        return EmailDonor;
-    }
-
-    public void setEmailDonor(String emailDonor) {
-        EmailDonor = emailDonor;
+        this.description = description;
     }
 
     public Integer getDonorId() {
@@ -78,54 +67,46 @@ public class Donation {
     }
 
     public void setDonorId(Integer donorId) {
-        donorId = donorId;
+        this.donorId = donorId;
     }
 
-    public String getNameDonor() {
-        return NameDonor;
+    public String getDonorBusinessName() {
+        return donorBusinessName;
     }
 
-    public void setNameDonor(String nameDonor) {
-        NameDonor = nameDonor;
+    public void setDonorBusinessName(String donorBusinessName) {
+        this.donorBusinessName = donorBusinessName;
     }
 
-    public String getNumber() {
-        return Number;
+    public String getDonorAddress() {
+        return donorAddress;
     }
 
-    public void setNumber(String number) {
-        Number = number;
+    public void setDonorAddress(String donorAddress) {
+        this.donorAddress = donorAddress;
     }
 
-    public String getPhone() {
-        return Phone;
+    public Integer getReceiverId() {
+        return receiverId;
     }
 
-    public void setPhone(String phone) {
-        Phone = phone;
+    public void setReceiverId(Integer receiverId) {
+        this.receiverId = receiverId;
     }
 
-    public String getQuantity() {
-        return Quantity;
+    public String getReceiverName() {
+        return receiverName;
     }
 
-    public void setQuantity(String quantity) {
-        Quantity = quantity;
+    public void setReceiverName(String receiverName) {
+        this.receiverName = receiverName;
     }
 
-    public String getReceiver() {
-        return Receiver;
+    public String getReceiverAddress() {
+        return receiverAddress;
     }
 
-    public void setReceiver(String receiver) {
-        Receiver = receiver;
-    }
-
-    public String getStreet() {
-        return Street;
-    }
-
-    public void setStreet(String street) {
-        Street = street;
+    public void setReceiverAddress(String receiverAddress) {
+        this.receiverAddress = receiverAddress;
     }
 }

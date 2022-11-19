@@ -1,4 +1,5 @@
 package com.helpfood.donation.controller;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.helpfood.donation.entity.Donation;
 import com.helpfood.donation.service.DonationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 @RestController
-@RequestMapping("/doacao")
+@RequestMapping("/donation")
 @SecurityScheme(
         name = "Bearer",
         type = SecuritySchemeType.HTTP,
@@ -48,9 +49,14 @@ public class DonationController {
         return donationService.listar();
     }
 
-    @GetMapping("/user/{id}")
-    public List<Donation> listByUserId(@PathVariable("id") Integer userId) {
-        return donationService.listByUserId(userId);
+    @GetMapping("/donor/{id}")
+    public List<Donation> listByDonorId(@PathVariable("id") Integer userId) {
+        return donationService.listByDonorId(userId);
+    }
+
+    @GetMapping("/receiver/{id}")
+    public List<Donation> listByReceiverId(@PathVariable("id") Integer userId) {
+        return donationService.listByReceiverId(userId);
     }
 }
 

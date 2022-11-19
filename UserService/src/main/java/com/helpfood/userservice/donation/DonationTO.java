@@ -1,4 +1,4 @@
-package com.helpfood.userservice.listener;
+package com.helpfood.userservice.donation;
 
 import java.io.Serializable;
 
