@@ -1,4 +1,4 @@
-package com.helpfood.producer;
+package com.helpfood.donationservice.producer;
 
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;

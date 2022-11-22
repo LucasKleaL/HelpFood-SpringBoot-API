@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -45,7 +46,8 @@ public class UserController {
             User user = userService.findById(id);
             return new ResponseEntity<>(user, HttpStatus.OK);
         } catch (NoSuchElementException ex) {
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+            throw new EntityNotFoundException("User not found.");
+            //return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
     }
 

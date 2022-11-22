@@ -1,6 +1,6 @@
-package com.helpfood.donation.repository;
+package com.helpfood.donationservice.donation.repository;
 
-import com.helpfood.donation.entity.Donation;
+import com.helpfood.donationservice.donation.entity.Donation;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

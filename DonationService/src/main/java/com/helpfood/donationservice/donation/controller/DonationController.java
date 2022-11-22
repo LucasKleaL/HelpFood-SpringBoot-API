@@ -1,7 +1,8 @@
-package com.helpfood.donation.controller;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.helpfood.donation.entity.Donation;
-import com.helpfood.donation.service.DonationService;
+package com.helpfood.donationservice.donation.controller;
+
+import com.helpfood.donationservice.donation.entity.Donation;
+import com.helpfood.donationservice.donation.service.DonationService;
+import com.helpfood.donationservice.util.exception.MessageException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,14 +25,14 @@ public class DonationController {
     DonationService donationService;
 
     @PostMapping
-    public ResponseEntity<?> save(@RequestBody Donation donation) {
-        donationService.salvar(donation);
+    public ResponseEntity<?> save(@RequestBody Donation donation) throws MessageException {
+        donation = donationService.save(donation);
         return new ResponseEntity<>(donation, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")
     public void delete(@PathVariable("id") Integer id) {
-        donationService.deletar(id);
+        donationService.delete(id);
     }
 
     @GetMapping("/{id}")
@@ -46,7 +47,7 @@ public class DonationController {
 
     @GetMapping
     public List<Donation> getAll() {
-        return donationService.listar();
+        return donationService.getAll();
     }
 
     @GetMapping("/donor/{id}")
