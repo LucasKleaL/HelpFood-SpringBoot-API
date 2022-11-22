@@ -8,12 +8,10 @@ import com.helpfood.userservice.util.exception.MessageException;
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -46,8 +44,7 @@ public class UserController {
             User user = userService.findById(id);
             return new ResponseEntity<>(user, HttpStatus.OK);
         } catch (NoSuchElementException ex) {
-            throw new EntityNotFoundException("User not found.");
-            //return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
     }
 

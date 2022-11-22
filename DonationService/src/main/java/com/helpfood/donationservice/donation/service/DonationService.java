@@ -3,18 +3,15 @@ package com.helpfood.donationservice.donation.service;
 import com.helpfood.donationservice.donation.entity.Donation;
 import com.helpfood.donationservice.donation.repository.DonationRepository;
 import com.helpfood.donationservice.producer.QueueSender;
+import com.helpfood.donationservice.product.ProductTO;
 import com.helpfood.donationservice.user.FeignUser;
-import com.helpfood.donationservice.user.UserTO;
 import com.helpfood.donationservice.util.exception.MessageException;
-import feign.FeignException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @Service
 public class DonationService {
@@ -28,7 +25,7 @@ public class DonationService {
     @Autowired
     private FeignUser feignUser;
 
-    public Donation save(Donation donation) throws MessageException, FeignException {
+    public Donation save(Donation donation) throws MessageException {
         // Title validation
         if (donation.getTitle() == null || donation.getTitle().equals("")) {
             throw new MessageException("DONATION_ERR001", "Invalid donation data (Title cannot be null).");
@@ -37,11 +34,26 @@ public class DonationService {
         if (donation.getDonorId() == null || donation.getDonorId() == 0) {
             throw new MessageException("DONATION_ERR001", "Invalid donation data (DonorId cannot be null).");
         }
-        if (feignUser.findUserById(donation.getDonorId()) == null) {
-
+        if (feignUser.findUserById(donation.getDonorId()).getStatusCodeValue() == 404) {
             throw new MessageException("DONATION_ERR002", "The user with id "+donation.getDonorId()+" don't exist.");
         }
+        // DonorAddress validation
+        if (donation.getDonorAddress() == null || donation.getDonorAddress().equals("")) {
+            throw new MessageException("DONATION_ERR001", "Invalid donation data (DonorAddress cannot be null).");
+        }
+        // ReceiverId validation
+        if (donation.getReceiverId() != null || !donation.getReceiverId().equals("")) {
+            if (feignUser.findUserById(donation.getReceiverId()).getStatusCodeValue() == 404) {
+                throw new MessageException("DONATION_ERR002", "The user with id "+donation.getDonorId()+" don't exist.");
+            }
+        }
+        // DonationProductsIds validation
+        if (donation.getProductsIds() == null || donation.getProductsIds().isEmpty()) {
+            throw new MessageException("DONATION_ERR001", "Invalid donation data (ProductsIds cannot be null).");
+        }
+        for (Integer productId : donation.getProductsIds()) {
 
+        }
         // CreationDate assign
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         Date date = new Date();

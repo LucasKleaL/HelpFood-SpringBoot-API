@@ -1,5 +1,8 @@
 package com.helpfood.donationservice.donation.entity;
+import com.helpfood.donationservice.product.ProductTO;
+
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "DONATIONS")
@@ -26,13 +29,13 @@ public class Donation {
     @Column(name="DonorAddress", nullable = false)
     private String donorAddress;
 
-    @Column(name="ReceiverId", nullable = false)
+    @Column(name="ReceiverId")
     private Integer receiverId;
 
-    @Column(name="ReceiverName", nullable = false)
+    @Column(name="ReceiverName")
     private String receiverName;
 
-    @Column(name="ReceiverAddress", nullable = false)
+    @Column(name="ReceiverAddress")
     private String receiverAddress;
 
     @Column(name="CreationDate", nullable = false)
@@ -40,6 +43,13 @@ public class Donation {
 
     @Column(name="DonationDate")
     private String donationDate;
+
+    @ElementCollection
+    @Column(name="ProductsIds", nullable = false)
+    private List<Integer> productsIds;
+
+    @Transient
+    private List<ProductTO> products;
 
     public Integer getId() {
         return id;
@@ -135,5 +145,29 @@ public class Donation {
 
     public void setDonationDate(String donationDate) {
         this.donationDate = donationDate;
+    }
+
+    public List<Integer> getProductsIds() {
+        return productsIds;
+    }
+
+    public void setProductsIds(List<Integer> productsIds) {
+        this.productsIds = productsIds;
+    }
+
+    public void addDonationProductsId(Integer productId) {
+        this.productsIds.add(productId);
+    }
+
+    public void removeDonationProductsId(Integer productId) {
+        this.productsIds.remove(Integer.valueOf(productId));
+    }
+
+    public List<ProductTO> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<ProductTO> products) {
+        this.products = products;
     }
 }
