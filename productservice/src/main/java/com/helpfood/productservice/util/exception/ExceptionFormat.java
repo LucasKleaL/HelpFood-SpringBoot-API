@@ -1,4 +1,4 @@
-package com.helpfood.util.excecao;
+package com.helpfood.productservice.util.exception;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -8,21 +8,19 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @ControllerAdvice
-public class FormatarExcecao {
+public class ExceptionFormat {
 
-    @ExceptionHandler({MessageException.class})
-    public ResponseEntity<Object> sqlError(MessageException ex) {
-        String retorno = "{" +
-                "\"codigo\":\""+ex.getCodigo()+"\"," +
-                "\"mensagem\":\""+ex.getMensagem()+"\"" +
+    @ExceptionHandler({MessageException.class, RuntimeException.class})
+    public ResponseEntity<Object> sqlError(MessageException exception) {
+        String result = "{" +
+                "\"code\":\""+exception.getCode()+"\"," +
+                "\"message\":\""+exception.getMessage()+"\"" +
                 "}";
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 
-        return new ResponseEntity<Object>(retorno, headers, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<Object>(result, headers, HttpStatus.BAD_REQUEST);
     }
+
 }
-
-
-
