@@ -3,6 +3,7 @@ package com.helpfood.donationservice.donation.service;
 import com.helpfood.donationservice.donation.entity.Donation;
 import com.helpfood.donationservice.donation.repository.DonationRepository;
 import com.helpfood.donationservice.producer.QueueSender;
+import com.helpfood.donationservice.product.FeignProduct;
 import com.helpfood.donationservice.product.ProductTO;
 import com.helpfood.donationservice.user.FeignUser;
 import com.helpfood.donationservice.util.exception.MessageException;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -24,6 +26,9 @@ public class DonationService {
 
     @Autowired
     private FeignUser feignUser;
+
+    @Autowired
+    private FeignProduct feignProduct;
 
     public Donation save(Donation donation) throws MessageException {
         // Title validation
@@ -63,7 +68,15 @@ public class DonationService {
     }
 
     public Donation findById(Integer id) {
-        return donationRepository.findById(id).get();
+        Donation donation = donationRepository.findById(id).get();
+        List<Integer> productsIds = donation.getProductsIds();
+        List<ProductTO> products = new ArrayList<>();
+        for (Integer productId : productsIds) {
+            ProductTO product = feignProduct.findProductById(productId).getBody();
+            products.add(product);
+        }
+        donation.setProducts(products);
+        return donation;
     }
 
     public void delete(int id) {
@@ -71,15 +84,45 @@ public class DonationService {
     }
 
     public List<Donation> getAll() {
-        return donationRepository.findAll();
+        List<Donation> donations = donationRepository.findAll();
+        for (Donation donation : donations) {
+            List<Integer> productsIds = donation.getProductsIds();
+            List<ProductTO> products = new ArrayList<>();
+            for (Integer productId : productsIds) {
+                ProductTO product = feignProduct.findProductById(productId).getBody();
+                products.add(product);
+            }
+            donation.setProducts(products);
+        }
+        return donations;
     }
 
     public List<Donation> listByDonorId(Integer donorId) {
-        return donationRepository.findAllByDonorId(donorId);
+        List<Donation> donations = donationRepository.findAllByDonorId(donorId);
+        for (Donation donation : donations) {
+            List<Integer> productsIds = donation.getProductsIds();
+            List<ProductTO> products = new ArrayList<>();
+            for (Integer productId : productsIds) {
+                ProductTO product = feignProduct.findProductById(productId).getBody();
+                products.add(product);
+            }
+            donation.setProducts(products);
+        }
+        return donations;
     }
 
     public List<Donation> listByReceiverId(Integer receiverId) {
-        return donationRepository.findAllByReceiverId(receiverId);
+        List<Donation> donations = donationRepository.findAllByReceiverId(receiverId);
+        for (Donation donation : donations) {
+            List<Integer> productsIds = donation.getProductsIds();
+            List<ProductTO> products = new ArrayList<>();
+            for (Integer productId : productsIds) {
+                ProductTO product = feignProduct.findProductById(productId).getBody();
+                products.add(product);
+            }
+            donation.setProducts(products);
+        }
+        return donations;
     }
 
 }
