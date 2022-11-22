@@ -44,10 +44,10 @@ public class ProductController {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
     }
-
     @DeleteMapping("/{id}")
     public void delete(@PathVariable("id") Integer id) {
         productService.delete(id);
     }
+
 }
 
