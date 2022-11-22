@@ -1,10 +1,9 @@
-package com.helpfood.listener;
+package com.helpfood.donationservice.listener;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.helpfood.donation.service.DonationService;
-import org.springframework.amqp.core.Message;
+import com.helpfood.donationservice.donation.service.DonationService;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.Payload;
@@ -31,6 +30,7 @@ public class DonationListener {
     }
     */
 
+    /*
     @RabbitListener(queues = "User")
     public void receive(@Payload String json) throws JsonMappingException, JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
@@ -43,5 +43,6 @@ public class DonationListener {
         }
 
     }
+     */
 
 }
