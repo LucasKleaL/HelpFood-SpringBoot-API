@@ -14,6 +14,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class DonationService {
@@ -47,7 +48,7 @@ public class DonationService {
             throw new MessageException("DONATION_ERR001", "Invalid donation data (DonorAddress cannot be null).");
         }
         // ReceiverId validation
-        if (donation.getReceiverId() != null || !donation.getReceiverId().equals("")) {
+        if (donation.getReceiverId() != null) {
             if (feignUser.findUserById(donation.getReceiverId()).getStatusCodeValue() == 404) {
                 throw new MessageException("DONATION_ERR002", "The user with id "+donation.getDonorId()+" don't exist.");
             }
@@ -57,7 +58,9 @@ public class DonationService {
             throw new MessageException("DONATION_ERR001", "Invalid donation data (ProductsIds cannot be null).");
         }
         for (Integer productId : donation.getProductsIds()) {
-
+            if (feignProduct.findProductById(productId).getStatusCodeValue() == 404) {
+                throw new MessageException("DONATION_ERR002", "The product with id "+productId+" don't exist.");
+            }
         }
         // CreationDate assign
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
@@ -123,6 +126,31 @@ public class DonationService {
             donation.setProducts(products);
         }
         return donations;
+    }
+
+    public Donation donate(Integer donationId, Donation updatedDonation) throws MessageException {
+        Donation donation = donationRepository.findById(donationId).get();
+        // ReceiverId validation
+        if (updatedDonation.getReceiverId() == null || updatedDonation.getReceiverId() == 0) {
+            throw new MessageException("DONATION_ERR001", "Invalid donation data (ReceiverId cannot be null).");
+        }
+        // ReceiverName validation
+        if (updatedDonation.getReceiverName() == null || updatedDonation.getReceiverName().equals("")) {
+            throw new MessageException("DONATION_ERR001", "Invalid donation data (ReceiverName cannot be null).");
+        }
+        // ReceiverAddress validation
+        if (updatedDonation.getReceiverAddress() == null || updatedDonation.getReceiverAddress().equals("")) {
+            throw new MessageException("DONATION_ERR001", "Invalid donation data (ReceiverAddress cannot be null).");
+        }
+        donation.setReceiverId(updatedDonation.getReceiverId());
+        donation.setReceiverName(updatedDonation.getReceiverName());
+        donation.setReceiverAddress(updatedDonation.getReceiverAddress());
+        // DonationDate assign
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        Date date = new Date();
+        donation.setDonationDate(formatter.format(date));
+
+        return donationRepository.save(donation);
     }
 
 }

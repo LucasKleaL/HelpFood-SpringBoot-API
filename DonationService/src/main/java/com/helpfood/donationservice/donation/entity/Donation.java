@@ -170,4 +170,5 @@ public class Donation {
     public void setProducts(List<ProductTO> products) {
         this.products = products;
     }
+
 }

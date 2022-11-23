@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.security.SecurityScheme;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/donation")
@@ -58,6 +59,17 @@ public class DonationController {
     @GetMapping("/receiver/{id}")
     public List<Donation> listByReceiverId(@PathVariable("id") Integer userId) {
         return donationService.listByReceiverId(userId);
+    }
+
+    @PutMapping("/donate/{donationId}")
+    public ResponseEntity<?> donate(@PathVariable("donationId") Integer donationId, @RequestBody Donation updatedDonation) throws MessageException {
+        try {
+            Donation donation = donationService.donate(donationId, updatedDonation);
+            return new ResponseEntity<>(donation, HttpStatus.OK);
+        }
+        catch (NoSuchElementException ex) {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
     }
 }
 
