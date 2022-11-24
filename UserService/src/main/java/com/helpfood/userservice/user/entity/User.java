@@ -1,8 +1,10 @@
 package com.helpfood.userservice.user.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.helpfood.userservice.donation.DonationTO;
 
 import javax.persistence.*;
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,30 +16,29 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    @Column(name = "NAME", nullable = false)
+    @Column(name = "Name", nullable = false)
     private String name;
 
-    @Column(name = "EMAIL", nullable = false, unique = true)
+    @Column(name = "Email", nullable = false, unique = true)
     private String email;
 
-    @Column(name = "PASSWORD", nullable = false)
+    @Column(name = "Password", nullable = false)
     private String password;
 
-    @Column(name = "EMAILVERIFIED", nullable = true)
+    @Column(name = "EmailVerified", nullable = true)
     private Boolean emailVerified;
 
-    @Column(name = "ALLOWED", nullable = true)
+    @Column(name = "Allowed", nullable = true)
     private Boolean allowed;
 
-    @Column(name = "CNPJ", nullable = false)
+    @Column(name = "Cnpj", nullable = false)
     private String cnpj;
 
-    @Column(name = "ROLE", nullable = false)
+    @Column(name = "Role", nullable = false)
     private String role;
 
-    @ElementCollection
-    @Column(name = "DONATIONIDS", nullable = true)
-    private List<Integer> donationIds;
+    @Column(name="CountDonations", nullable = false)
+    private Integer countDonations;
 
     @Transient
     private List<DonationTO> donations;
@@ -106,22 +107,6 @@ public class User {
         this.role = role;
     }
 
-    public List<Integer> getDonationsId() {
-        return donationIds;
-    }
-
-    public void setDonationsId(List<Integer> donationsId) {
-        this.donationIds = donationsId;
-    }
-
-    public void addDonationId(Integer id) {
-        this.donationIds.add(id);
-    }
-
-    public void removeDonationId(Integer donationId) {
-        this.donationIds.remove(Integer.valueOf(donationId));
-    }
-
     public List<DonationTO> getDonations() {
         return donations;
     }
@@ -130,4 +115,19 @@ public class User {
         this.donations = donations;
     }
 
+    public Integer getCountDonations() {
+        return countDonations;
+    }
+
+    public void setCountDonations(Integer countDonations) {
+        this.countDonations = countDonations;
+    }
+
+    public void addDonation() {
+        this.countDonations++;
+    }
+
+    public void removeDonation() {
+        this.countDonations--;
+    }
 }

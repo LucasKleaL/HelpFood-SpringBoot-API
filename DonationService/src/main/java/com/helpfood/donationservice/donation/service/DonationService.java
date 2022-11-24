@@ -1,5 +1,7 @@
 package com.helpfood.donationservice.donation.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.helpfood.donationservice.donation.entity.Donation;
 import com.helpfood.donationservice.donation.repository.DonationRepository;
 import com.helpfood.donationservice.producer.QueueSender;
@@ -11,10 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class DonationService {
@@ -31,7 +30,7 @@ public class DonationService {
     @Autowired
     private FeignProduct feignProduct;
 
-    public Donation save(Donation donation) throws MessageException {
+    public Donation save(Donation donation) throws MessageException, JsonProcessingException {
         // Title validation
         if (donation.getTitle() == null || donation.getTitle().equals("")) {
             throw new MessageException("DONATION_ERR001", "Invalid donation data (Title cannot be null).");
@@ -66,8 +65,15 @@ public class DonationService {
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         Date date = new Date();
         donation.setCreationDate(formatter.format(date));
+        // Trying to save new donation
+        Donation created = donationRepository.save(donation);
+        // Send the created new donation to UserService
+        if (created != null) {
+            ObjectMapper mapper = new ObjectMapper();
+            queueSender.sendDonationToUser(mapper.writeValueAsString(donation), "add");
+        }
 
-        return donationRepository.save(donation);
+        return created;
     }
 
     public Donation findById(Integer id) {
@@ -82,7 +88,7 @@ public class DonationService {
         return donation;
     }
 
-    public void delete(int id) {
+    public void delete(Integer id) {
         donationRepository.deleteById(id);
     }
 

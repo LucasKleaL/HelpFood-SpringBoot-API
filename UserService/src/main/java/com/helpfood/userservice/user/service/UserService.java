@@ -8,9 +8,13 @@ import com.helpfood.userservice.producer.QueueSender;
 import com.helpfood.userservice.user.entity.User;
 import com.helpfood.userservice.user.repository.UserRepository;
 import com.helpfood.userservice.util.exception.MessageException;
+import org.hibernate.Criteria;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -59,6 +63,8 @@ public class UserService {
         if (user.getAllowed() == null) {
             user.setAllowed(true);
         }
+        // CountDonations assign
+        user.setCountDonations(0);
 
         return userRepository.save(user);
     }
@@ -99,7 +105,8 @@ public class UserService {
         else {
             user = userRepository.findById(donation.getReceiverId()).get();
         }
-        user.addDonationId(donation.getId());
+        user.addDonation();
+        userRepository.save(user);
     }
 
     public void removeDonationId(DonationTO donation) {
@@ -110,7 +117,8 @@ public class UserService {
         else {
             user = userRepository.findById(donation.getReceiverId()).get();
         }
-        user.removeDonationId(donation.getId());
+        user.removeDonation();
+        userRepository.save(user);
     }
 
 }
