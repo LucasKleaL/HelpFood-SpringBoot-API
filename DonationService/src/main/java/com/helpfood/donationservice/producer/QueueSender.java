@@ -17,12 +17,21 @@ public class QueueSender {
         rabbitTemplate.convertAndSend(this.queue.getName(), json);
     }
 
-    public void sendDonationToUser(String json, Boolean last) {
+    public void sendDonationToUser(String json, String operation) {
         // set the header of the "last" property of message
         rabbitTemplate.setBeforePublishPostProcessors(message -> {
-            message.getMessageProperties().setHeader("last", last);
+            message.getMessageProperties().setHeader("operation", operation);
             return message;
         });
         rabbitTemplate.convertAndSend("Donation", json);
+    }
+
+    public void sendOperationToUser(Integer userId, String operation) {
+        // set the header of the "last" property of message
+        rabbitTemplate.setBeforePublishPostProcessors(message -> {
+            message.getMessageProperties().setHeader("operation", operation);
+            return message;
+        });
+        rabbitTemplate.convertAndSend("Donation", userId);
     }
 }

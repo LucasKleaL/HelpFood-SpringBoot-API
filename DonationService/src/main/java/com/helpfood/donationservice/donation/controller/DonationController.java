@@ -1,5 +1,6 @@
 package com.helpfood.donationservice.donation.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.helpfood.donationservice.donation.entity.Donation;
 import com.helpfood.donationservice.donation.service.DonationService;
 import com.helpfood.donationservice.util.exception.MessageException;
@@ -26,7 +27,7 @@ public class DonationController {
     DonationService donationService;
 
     @PostMapping
-    public ResponseEntity<?> save(@RequestBody Donation donation) throws MessageException {
+    public ResponseEntity<?> save(@RequestBody Donation donation) throws MessageException, JsonProcessingException {
         donation = donationService.save(donation);
         return new ResponseEntity<>(donation, HttpStatus.CREATED);
     }

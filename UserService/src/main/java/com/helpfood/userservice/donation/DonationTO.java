@@ -1,6 +1,10 @@
 package com.helpfood.userservice.donation;
 
+import com.helpfood.userservice.product.ProductTO;
+
+import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 public class DonationTO implements Serializable {
 
@@ -23,6 +27,16 @@ public class DonationTO implements Serializable {
     private String receiverName;
 
     private String receiverAddress;
+
+    private String creationDate;
+
+    private String donationDate;
+
+    @ElementCollection
+    private List<Integer> productsIds;
+
+    @Transient
+    private List<ProductTO> products;
 
     public Integer getId() {
         return id;
@@ -102,5 +116,37 @@ public class DonationTO implements Serializable {
 
     public void setReceiverAddress(String receiverAddress) {
         this.receiverAddress = receiverAddress;
+    }
+
+    public String getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(String creationDate) {
+        this.creationDate = creationDate;
+    }
+
+    public String getDonationDate() {
+        return donationDate;
+    }
+
+    public void setDonationDate(String donationDate) {
+        this.donationDate = donationDate;
+    }
+
+    public List<Integer> getProductsIds() {
+        return productsIds;
+    }
+
+    public void setProductsIds(List<Integer> productsIds) {
+        this.productsIds = productsIds;
+    }
+
+    public List<ProductTO> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<ProductTO> products) {
+        this.products = products;
     }
 }

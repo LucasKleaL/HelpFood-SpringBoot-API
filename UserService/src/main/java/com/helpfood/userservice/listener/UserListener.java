@@ -11,6 +11,8 @@ import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 
+import java.util.NoSuchElementException;
+
 @Component
 public class UserListener {
 
@@ -22,10 +24,22 @@ public class UserListener {
         ObjectMapper mapper = new ObjectMapper();
         DonationTO donation = mapper.readValue(json, DonationTO.class);
         if (operation.equals("add")) {
-            userService.addDonationId(donation);
+            System.out.println("add donation "+donation.getId());
+            try {
+                userService.addDonationId(donation);
+            }
+            catch (NoSuchElementException ex) {
+                System.out.println("failed to add donation "+donation.getId()+" "+ex);
+            }
         }
         else if (operation.equals("remove")) {
-            userService.removeDonationId(donation);
+            System.out.println("remove donation "+donation.getId());
+            try {
+                userService.removeDonationId(donation);
+            }
+            catch (NoSuchElementException ex) {
+                System.out.println("failed to remove donation "+donation.getId()+" "+ex);
+            }
         }
     }
 
