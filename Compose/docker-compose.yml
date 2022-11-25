@@ -5,39 +5,39 @@ services:
     build:
       context: ../DonationService
       dockerfile: ../DonationService/Dockerfile
-    image: donation-server:latest
+    image: donation-service:latest
     ports:
-      - 8082:8082
+      - "8082:8082"
     networks:
       - spring-cloud-network
   product-server:
-    container_name: product-server
+    container_name: product-service
     build:
-      context: ../productservice
-      dockerfile: ../productservice/Dockerfile
-    image: product-server:latest
+      context: ../ProductService
+      dockerfile: ../ProductService/Dockerfile
+    image: product-service:latest
     ports:
-      - 8081:8081
+      - "8081:8081"
     networks:
       - spring-cloud-network
   user-server:
-    container_name: user-server
+    container_name: user-service
     build:
       context: ../UserService
       dockerfile: ../UserService/Dockerfile
-    image: user-server:latest
+    image: user-service:latest
     ports:
-      - 8080:8080
+      - "8080:8080"
     networks:
       - spring-cloud-network
   register-server:
-    container_name: register-server
+    container_name: register-service
     build:
       context: ../RegisterService
       dockerfile: ../RegisterService/Dockerfile
-    image: register-server:latest
+    image: register-service:latest
     ports:
-      - 8083:8083
+      - "8083:8083"
     networks:
       - spring-cloud-network
 networks:
