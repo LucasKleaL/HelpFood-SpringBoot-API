@@ -9,7 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 
 @OpenAPIDefinition(
-        info = @Info(title = "API de usuários para doações", version = "3.0.1", description = "Helpfood"),
+        info = @Info(title = "HelpFood User Service API", version = "1.0.0", description = "Helpfood"),
         servers = {
                 @Server(url = "http://localhost:8080"),
                 @Server(url = "http://localhost:8080/user"),

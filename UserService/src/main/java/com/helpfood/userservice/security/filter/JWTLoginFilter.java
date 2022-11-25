@@ -36,6 +36,9 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
 
+        logger.info("AttemptAuthentication email: "+email);
+        logger.info("AttemptAuthentication password: "+password);
+
         Autenticacao credentials = new Autenticacao();
         credentials.setEmail(email);
         credentials.setPassword(password);

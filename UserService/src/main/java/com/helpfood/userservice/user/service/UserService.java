@@ -86,7 +86,16 @@ public class UserService {
     }
 
     public User findById(Integer id) {
-        return userRepository.findById(id).get();
+        User user = userRepository.findById(id).get();
+        List<DonationTO> userDonations;
+        if (user.getRole().equals("empresa")) {
+            userDonations = feignDonation.findByDonorId(user.getId());
+        }
+        else {
+            userDonations = feignDonation.findByReceiverId(user.getId());
+        }
+        user.setDonations(userDonations);
+        return user;
     }
 
     public List<DonationTO> getAllUserDonations(User user){

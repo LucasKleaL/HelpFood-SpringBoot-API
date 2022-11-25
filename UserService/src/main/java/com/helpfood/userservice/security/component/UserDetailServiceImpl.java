@@ -43,7 +43,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
                     new ArrayList<>(),
                     null);
 
-            logger.info("Email: " + email + " not found.");
+            logger.info("Email: " + email + " found.");
 
             return u;
         } catch (Exception ex) {

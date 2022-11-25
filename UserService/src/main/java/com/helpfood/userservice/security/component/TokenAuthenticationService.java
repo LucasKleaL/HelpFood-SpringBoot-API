@@ -1,10 +1,13 @@
 package com.helpfood.userservice.security.component;
 
+import com.helpfood.userservice.security.filter.JWTLoginFilter;
 import com.helpfood.userservice.security.model.Autenticacao;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -21,12 +24,16 @@ public class TokenAuthenticationService {
     static final String TOKEN_PREFIX = "Bearer";
     static final String HEADER_STRING = "Authorization";
 
+    private static final Logger logger = LoggerFactory.getLogger(JWTLoginFilter.class);
+
     public static Autenticacao getToken(HttpServletResponse response, String email,
                                         Collection<? extends  GrantedAuthority> authorities, Integer guidUser) {
         String token = Jwts.builder()
                 .setSubject(email)
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .signWith(SignatureAlgorithm.HS512, SECRET).compact();
+
+        logger.info(token);
 
         Autenticacao autenticacao = new Autenticacao();
         autenticacao.setToken(token);
